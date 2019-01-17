@@ -1,9 +1,31 @@
 from layers import *
 import numpy as np
+from PIL import Image
+import os
 
 
-def read_data(filename, num_images, IMAGE_WIDTH):
-    pass
+def convert_label(label):
+    return {
+        "Chinese": 0,
+        "Ottoman": 1,
+        "Roman"  : 2
+    }[label]
+
+
+def read_data(folder):
+    data = []
+    labels = []
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            img = np.array(Image.open(os.path.join(root, file)))
+            img = np.reshape(img, (256 *256, 3))
+            data.append(img)
+            labels.append(convert_label(root.split("/")[3]))
+
+    return np.array(data).astype(np.float32), np.array(labels).astype(np.int64)
+
+
+read_data("./Coins/TrainData/")
 
 
 def initialize_filter(size, scale=1.0):
