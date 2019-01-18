@@ -132,7 +132,7 @@ def SGD(x_batch, y_batch, num_classes, lr, img_dim, i_channel, params, cost):
 
 # Training network
 def train(num_classes=3, lr=0.001, img_dim=256, img_depth=3, conv_size=5, f1_count=6, f2_count=16,
-          batch_size=64, num_epochs=5, save_path='./weights.pkl'):
+          batch_size=64, num_epochs=50, save_path='./weights.pkl'):
 
     # training data
     train_data, train_label = read_data("./Coins/TrainData/")
@@ -164,14 +164,14 @@ def train(num_classes=3, lr=0.001, img_dim=256, img_depth=3, conv_size=5, f1_cou
             params, cost = SGD(x_batch, y_batch, num_classes, lr, img_dim, img_depth, params, cost)
             print("Cost: %.2f" % (cost[-1]))
 
-        ep += 1
-        print("Epoch: " + ep + " Cost: " + cost[-1])
-
         to_save = [params, cost]
         with open(save_path, 'wb') as file:
             pickle.dump(to_save, file)
 
         print("Saved!")
+        ep += 1
+        print("Epoch: " + str(ep) + " Cost: " + str(cost[-1]))
+
 
     to_save = [params, cost]
 

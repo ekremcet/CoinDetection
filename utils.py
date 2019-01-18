@@ -41,6 +41,7 @@ def predict(image, f1, f2, w3, w4, w5, b1, b2, b3, b4, b5, conv_stride=1, pool_d
     image = image.reshape(3, 256, 256)
     conv1 = convolution(image, f1, b1, conv_stride)  # Conv
     conv1[conv1 <= 0] = 0  # ReLU
+
     pool1 = maxpool(conv1, pool_dim, pool_stride)  # Pool
 
     conv2 = convolution(pool1, f2, b2, conv_stride)
